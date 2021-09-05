@@ -1,0 +1,33 @@
+version: '2.1'
+
+services:
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      # So you don't have to use root, but you can if you like
+      - MYSQL_USER=test
+      # You can use whatever password you like
+      - MYSQL_PASSWORD=test
+      # Password for root access
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      # <Port exposed> : < MySQL Port running inside container>
+      - '3338:3306'
+    expose:
+      - '3338'
+    volumes:
+    - /data:/var/lib/mysql
+
+  products:
+    image: "products"
+    depends_on:
+      - db
+    ports:
+      - 9090:9090
+    environment:
+      - MYSQL_HOST=db
+    expose:
+      - 9090
+volumes:
+  data:

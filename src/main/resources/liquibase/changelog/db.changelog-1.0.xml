@@ -1,0 +1,72 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet author="Vodafone" id="1">
+        <createTable tableName="device">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="manufacture_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ready" type="boolean" defaultValue="false">
+                <constraints nullable="false" />
+            </column>
+            <column name="temperature" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+            <column name="last_update_date" type="datetime">
+                <constraints nullable="true" />
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="Vodafone" id="3">
+        <createTable tableName="sim">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="device_id" type="BIGINT">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="operator_code" type="VARCHAR(12)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="country" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- FK -->
+    <changeSet author="Vodafone" id="4">
+        <addForeignKeyConstraint baseColumnNames="device_id" baseTableName="sim" constraintName="FK_DEVICE_SIM" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="sim" validate="true"/>
+    </changeSet>
+
+    <!-- Index -->
+    <changeSet author="Vodafone" id="5">
+        <createIndex indexName="INDEX_DEVICE_READY" tableName="device">
+            <column name="ready"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="Vodafone" id="6">
+        <createIndex indexName="INDEX_DEVICE_TEMP" tableName="device">
+            <column name="temperature"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="Vodafone" id="7">
+        <createIndex indexName="INDEX_SIM_STATUS" tableName="sim">
+            <column name="status"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>
