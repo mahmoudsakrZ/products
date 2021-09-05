@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @SpringBootApplication
 @EnableWebMvc
@@ -19,6 +20,11 @@ public class ProductsApplication {
 		DispatcherServlet ds = new DispatcherServlet();
 		ds.setThrowExceptionIfNoHandlerFound(true);
 		return ds;
+	}
+
+	@Bean
+	public InternalResourceViewResolver defaultViewResolver() {
+		return new InternalResourceViewResolver();
 	}
 
 }
